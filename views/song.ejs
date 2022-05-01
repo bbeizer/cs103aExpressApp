@@ -1,7 +1,7 @@
 <div class="container-sm">
 <div class="col text-center bg-light p-2 border border-primary border-2">
     <h1>Enter Song</h1>
-    <form method="post" action="/song">
+    <form method="post" action="/song/add">
         title:<input type="text" name="title"><br>
         album:<input type="text" name="album"><br>
         artist:<input type="text" name="artist"><br>
@@ -9,5 +9,14 @@
         <br>
         <input type="submit" class="btn btn-lg btn-danger class="mt-5">
     </form>
+    <%= items.length %>
+    <% for (item of items){%>
+        <div class="col text-center bg-light p-2 border border-primary border-2"></divclass>
+            <%= item.title %> 
+            <%= item.album %> 
+            <%= item.author %> 
+            <%= item.genre %> 
+        </div>
+        <% }%>
 </div>
 </div>

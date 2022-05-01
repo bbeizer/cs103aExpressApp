@@ -5,6 +5,7 @@ const ObjectId = Schema.Types.ObjectId;
 const Mixed = Schema.Types.Mixed;
 
 var songSchema = Schema( {
+    userId: ObjectId,
     title: String,
     artist: String,
     genre: String,
