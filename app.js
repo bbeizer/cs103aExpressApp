@@ -111,6 +111,10 @@ app.get("/", (req, res, next) => {
   res.render("home");
 });
 
+app.get("/about", (req, res, next) => {
+  res.render("about");
+});
+
 app.get("/song", 
 isLoggedIn,
 async (req,res,next) => {
@@ -141,16 +145,6 @@ async (req,res,next) => {
 }
 );
 
-app.get('/getplaylists/:name',
-  async (req,res,next) => {
-    try {
-      const {name} = req.params
-      res.locals.people = await Song.find({name})
-      res.render('exam13b-result')
-    } catch (error) {
-      next(error)
-    }
-  })
 
 /* ************************
   Functions needed for the course finder routes
