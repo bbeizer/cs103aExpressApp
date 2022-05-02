@@ -116,8 +116,8 @@ isLoggedIn,
 async (req,res,next) => {
   try{
     let userId = res.locals.user._id;  // get the user's id
-    let items = await Song.find({userId:userId}); // lookup the user's todo items
-    res.locals.items = items;  //make the items available in the view
+    let songs = await Song.find({userId:userId}); // lookup the user's todo items
+    res.locals.songs = songs;  //make the items available in the view
     res.render("song");  // render to the toDo page
   } catch (e){
     next(e);
@@ -158,36 +158,6 @@ app.get('/todo',
       next(e);
     }
   }
-  )
-
-  app.post('/todo/add',
-  isLoggedIn,
-  async (req,res,next) => {
-    try{
-      const {title,description} = req.body; // get title and description from the body
-      const userId = res.locals.user._id; // get the user's id
-      const createdAt = new Date(); // get the current date/time
-      let data = {title, description, userId, createdAt,} // create the data object
-      let item = new ToDoItem(data) // create the database object (and test the types are correct)
-      await item.save() // save the todo item in the database
-      res.redirect('/todo')  // go back to the todo page
-    } catch (e){
-      next(e);
-    }
-  }
-  )
-
-  app.get("/todo/delete/:itemId",
-    isLoggedIn,
-    async (req,res,next) => {
-      try{
-        const itemId=req.params.itemId; // get the id of the item to delete
-        await ToDoItem.deleteOne({_id:itemId}) // remove that item from the database
-        res.redirect('/todo') // go back to the todo page
-      } catch (e){
-        next(e);
-      }
-    }
   )
 
   app.get("/todo/completed/:value/:itemId",
@@ -278,68 +248,55 @@ app.get('/upsertDB',
   }
 )
 
-
-app.post('/courses/bySubject',
-  // show list of courses in a given subject
-  async (req,res,next) => {
-    const {subject} = req.body;
-    const courses = await Course.find({subject:subject,independent_study:false}).sort({term:1,num:1,section:1})
-    
-    res.locals.courses = courses
-    //res.locals.times2str = times2str
-    //res.json(courses)
-    res.render('courselist')
-  }
-)
-
-app.post('/courses/byKeyword',
+app.post('/songs/byTitle',
   // show courses taught by keyword
   async (req,res,next) => {
-    const {keyword} = req.body;
-    const courses = await Course.find({name:keyword,independent_study:false}).sort({term:1,num:1,section:1})
+    const {title} = req.body;
+    const songs = await Song.find({title:title})
 
-    res.locals.courses = courses
+    res.locals.songs = songs
     //res.locals.times2str = times2str
     //res.json(courses)
-    res.render('courselist')
+    res.render('song')
   }
 )
 
-app.get('/courses/show/:courseId',
-  // show all info about a course given its courseid
+app.post('/songs/byAlbum',
+  // show list of courses in a given subject
   async (req,res,next) => {
-    const {courseId} = req.params;
-    const course = await Course.findOne({_id:courseId})
-    res.locals.course = course
+    const {album} = req.body;
+    const songs = await Song.find({album:album})
+    
+    res.locals.songs = songs
     //res.locals.times2str = times2str
-    //res.json(course)
-    res.render('course')
+    //res.json(courses)
+    res.render('song')
   }
 )
 
-app.get('/courses/byInst/:email',
-  // show a list of all courses taught by a given faculty
+app.post('/songs/byArtist',
+  // show list of courses in a given subject
   async (req,res,next) => {
-    const email = req.params.email+"@brandeis.edu";
-    const courses = await Course.find({instructor:email,independent_study:false})
+    const {artist} = req.body;
+    const songs = await Song.find({artist:artist})
+    
+    res.locals.songs = songs
+    //res.locals.times2str = times2str
     //res.json(courses)
-    res.locals.courses = courses
-    res.render('courselist')
-  } 
+    res.render('song')
+  }
 )
 
-app.post('/courses/byInst',
-  // show courses taught by a faculty send from a form
+app.post('/songs/byGenre',
+  // show courses taught by keyword
   async (req,res,next) => {
-    const email = req.body.email+"@brandeis.edu";
-    const courses = 
-       await Course
-               .find({instructor:email,independent_study:false})
-               .sort({term:1,num:1,section:1})
-    //res.json(courses)
-    res.locals.courses = courses
+    const {genre} = req.body;
+    const songs = await Song.find({genre:genre})
+
+    res.locals.songs = songs
     //res.locals.times2str = times2str
-    res.render('courselist')
+    //res.json(courses)
+    res.render('song')
   }
 )
 

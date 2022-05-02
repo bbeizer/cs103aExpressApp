@@ -28,12 +28,12 @@
             </tr>
         </thead>
         <tbody></tbody>
-    <% for (item of items){%>
+    <% for (song of songs){%>
         <tr>
-            <td><%= item.title%></td>
-            <td><%= item.album%></td>
-            <td><%= item.artist%></td>
-            <td><%= item.genre%></td>
+            <td><%= song.title%></td>
+            <td><%= song.album%></td>
+            <td><%= song.artist%></td>
+            <td><%= song.genre%></td>
         </tr>
         <% }%>
     </table>
