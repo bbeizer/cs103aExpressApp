@@ -24,7 +24,7 @@ const Schedule = require('./models/Schedule')
 const Song = require('./models/Song')
 
 // *********************************************************** //
-//  Loading JSON datasets 
+//  Loading JSON datasets  
 // *********************************************************** //
 const courses = require('./public/data/courses20-21.json')
 
